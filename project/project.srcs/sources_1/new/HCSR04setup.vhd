@@ -21,14 +21,14 @@ use IEEE.STD_LOGIC_UNSIGNED.ALL;
 use IEEE.NUMERIC_STD.ALL;
 
 entity HCSR04setup is
-	-- Parameter
+
 	Generic	(
-					constant CLOCK		: integer := 100 * 10**6;				-- System speed (100 MHz)
-					constant DATASIZE	: integer range 8 to 16 := 16		-- Datawidthof hcsr04DATA
+					constant CLOCK			: integer := 100_000_000;		-- System speed (100 MHz)
+					constant DATAWIDTH	: integer := 16							-- Datawidthof hcsr04DATA
 					);
-	-- I/O signals
+
 	Port(
-			clk					:	 in std_logic,
+			clk					:	 in std_logic;
 			EN					:	 in std_logic;
 			
 			spiCLK			:	 in std_logic;
@@ -37,7 +37,7 @@ entity HCSR04setup is
 			spiMISO			:	out std_logic;
 			
 			hcsr04IRQ		:	 in std_logic;
-			hcsr04DATA	:  in std_logic_vector((DATASIZE - 1) downto 0)
+			hcsr04DATA	:  in std_logic_vector((DATAWIDTH - 1) downto 0)
 			);
 end HCSR04setup;
 
