@@ -1,6 +1,6 @@
 ﻿# basys3 Repository!
 
-[![Version: 1.0 Release](https://img.shields.io/badge/Version-1.0%20Release-green.svg)](https://github.com/sunriax) [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) [![Slack: Join](https://img.shields.io/badge/Slack-Join-blue.svg)](https://join.slack.com/t/sunriax-technology/shared_invite/enQtMjg3OTE2MjIyMTE2LTU1MmEwNmY5Y2Y3MTNjNzFhYzE5NTFkYWY4NzE0YmQzNzA5NjBkMWQ3ODkyNDI1NjJmMGIwYzMwOGI5ZjA2MDg)
+[![Version: 0.1 Beta](https://img.shields.io/badge/Version-0.1%20Beta-red.svg)](https://github.com/sunriax) [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) [![Slack: Join](https://img.shields.io/badge/Slack-Join-blue.svg)](https://join.slack.com/t/sunriax-technology/shared_invite/enQtMjg3OTE2MjIyMTE2LTU1MmEwNmY5Y2Y3MTNjNzFhYzE5NTFkYWY4NzE0YmQzNzA5NjBkMWQ3ODkyNDI1NjJmMGIwYzMwOGI5ZjA2MDg)
 
 ## Description
 
@@ -46,6 +46,10 @@ Every entity has its own simulation and description (e.g. spi.vhd, spi_tb.vhd an
   * [FIFO](./modules/storage/fifo.md)
 * Display
   * [VGA](./modules/display/vga.md)
+
+## Projects
+
+In the projects subdirectory there are projects which use some of the above entities. Additional information can be found under the [project.md](./project/project.md).
 
 ## Important Notice
 
