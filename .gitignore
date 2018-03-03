@@ -88,3 +88,8 @@
 !*.elf
 !*.bmm
 !*.xmp
+#########
+# Folders
+#########
+project.sim
+project.ip_user_files

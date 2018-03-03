@@ -5,11 +5,11 @@
 -- Hardware: Basys3
 -- Platform: Artix 7 CPG236 FPGA
 -- -------------------------------------
--- Name: hcsr04_tb.vhd
+-- Name: spi_slave_tb.vhd
 -- Ver.: 1.0 Release
 -- Type: Testbench
 -- Text: Simulate the execution of a
---       HCSR04 measurement
+--       SPI transmission
 --
 -- (c) 2017 SUNriaX, All rights reserved
 -- https://github.com/sunriax/basys3
@@ -25,7 +25,7 @@ entity hcsr04_tb is
 --  Port ( );
 end hcsr04_tb;
 
-architecture Simulation of hcsr04_tb is
+architecture Simulation of spi_slave_tb is
 
 	-- Simulationskonstanten
 	constant clk_period	: time		:= 10 ns;	-- Simulation clock period (100 MHz)
@@ -40,7 +40,7 @@ architecture Simulation of hcsr04_tb is
 	signal data		: std_logic_vector((DATAWIDTH - 1) downto 0) := (others => '0');
 
 	-- Komponentendeklaration
-	component hcsr04 is
+	component spi_slave is
 		Generic	(
 				constant DATAWIDTH	: integer := 16				-- Measurement output width
 				);
@@ -52,23 +52,23 @@ architecture Simulation of hcsr04_tb is
 				valid	:	out std_logic;
 				data	:	out std_logic_vector((DATAWIDTH - 1) downto 0)
 				);
-	end component hcsr04;
+	end component spi_slave;
 
 begin
 
 -- Unit under test description
-UUT:	hcsr04  generic map (
-							-- All other parameters will be standard
-							DATAWIDTH 	=>	DATAWIDTH
-							)
-					port map(
-							EN		=>	EN,
-							clk		=>	clk,
-							trigger	=>	trigger,
-							echo	=>	echo,
-							valid	=>	valid,
-							data	=>	data
-							);
+UUT:	spi_slave  generic map (
+								-- All other parameters will be standard
+								DATAWIDTH 	=>	DATAWIDTH
+								)
+						port map(
+								EN		=>	EN,
+								clk		=>	clk,
+								trigger	=>	trigger,
+								echo	=>	echo,
+								valid	=>	valid,
+								data	=>	data
+								);
 
 -- Generate clock signal
 procCLK:	process
