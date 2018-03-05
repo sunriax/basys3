@@ -87,8 +87,6 @@ proc_TRIGGER:	process(EN, clk)
 								if(echostate = "01") then
 								
 									valid <= '0';
-									--echoresult <= RESIZE((echoperiod * (VELOCITY + 600 * TEMP) / (2 * CLOCK)), 16);
-									--data <= std_logic_vector(echoresult(data'HIGH downto 0));
 									data <= std_logic_vector(RESIZE((echoperiod * (VELOCITY + 600 * TEMP) / (2 * CLOCK)), DATAWIDTH));
 									
 								elsif(echostate = "10") then
