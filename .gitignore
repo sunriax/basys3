@@ -91,5 +91,6 @@
 #########
 # Folders
 #########
-project.sim
-project.ip_user_files
+*.sim
+*.ip_user_files
+*.runs
