@@ -27,22 +27,22 @@ end hcsr04_tb;
 
 architecture Simulation of hcsr04_tb is
 
-	-- Simulationskonstanten
+	-- Simulation constants
 	constant clk_period	: time		:= 10 ns;	-- Simulation clock period (100 MHz)
 	constant DATAWIDTH	: integer	:= 16;		-- Length of data output
 
-	-- Simulations Signale
-	signal EN		: std_logic := '0';
+	-- Simulations Unit I/O signals
 	signal clk		: std_logic := '0';
+	signal EN		: std_logic := '0';
 	signal trigger	: std_logic := '0';
 	signal echo		: std_logic := '0';
 	signal valid	: std_logic := '0';
 	signal data		: std_logic_vector((DATAWIDTH - 1) downto 0) := (others => '0');
 
-	-- Komponentendeklaration
+	-- Declaration of component
 	component hcsr04 is
 		Generic	(
-				constant DATAWIDTH	: integer := 16				-- Measurement output width
+				constant DATAWIDTH	: integer
 				);
 			Port(
 				EN		:	 in std_logic;

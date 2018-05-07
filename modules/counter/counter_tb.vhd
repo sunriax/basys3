@@ -1,18 +1,19 @@
---	--------------- Module ---------------
---	SUNriaX Technology!
---	GÄCHTER R.
---	
---	mail: https://www.sunriax.at/contact
---	web:  https://www.sunriax.at
---  git:  https://github.com/sunriax/
---	
---	(c) 2017 SUNriaX, All rights reserved
---	--------------------------------------
---	File: counter_tb.vhd
---	Version: v1.0
---	--------------------------------------
---	Testbench zum testen des Zählermoduls
---	--------------------------------------
+-- -------------------------------------
+-- SUNriaX Project
+-- www.sunriax.at
+-- -------------------------------------
+-- Hardware: Basys3
+-- Platform: Artix 7 CPG236 FPGA
+-- -------------------------------------
+-- Name: counter_tb.vhd
+-- Ver.: 1.0 Release
+-- Type: Testbench
+-- Text: Simulate the execution of a
+--       up/down counting sequence
+--
+-- (c) 2017 SUNriaX, All rights reserved
+-- https://github.com/sunriax/basys3
+-- -------------------------------------
 
 library IEEE;
 library UNISIM;
@@ -27,29 +28,28 @@ end counter_tb;
 architecture Simulation of counter_tb is
 
 	-- Taktdefinitionen
-	constant	clk_period	: time := 10 ns;	-- Simulationstakt (100 MHz)
-	signal 		clk			: std_logic := '0';	-- Simulationstaktsignal
+	constant clk_period	: time := 10 ns;	-- Simulationstakt (100 MHz)
+	constant DATAWIDTH	: integer := 8;
 
-	-- Simulationskonstanten
-	constant DATASIZE		: integer := 8;
-	constant DIRECTION		: std_logic := '0';
 
 	-- Simulations Signale
+	signal clk		: std_logic := '0';
 	signal EN		: std_logic := '0';
-	signal INIT		: std_logic_vector(DATASIZE - 1 downto 0) := (others => '0');
-	signal COUNT	: std_logic_vector(DATASIZE - 1 downto 0) := (others => '0');
+	signal DIR		: std_logic := '0';
+	signal INIT		: std_logic_vector(DATAWIDTH - 1 downto 0) := (others => '0');
+	signal COUNT	: std_logic_vector(DATAWIDTH - 1 downto 0) := (others => '0');
 
 	-- Komponentendeklaration
 	component counter is
 		 Generic(
-				constant DATASIZE		:	integer;
-				constant DIRECTION		:	std_logic
+				constant DATAWIDTH		:	integer
 				);
 			Port(
 				EN		: in std_logic;
 				clk		: in std_logic;
-				INIT	: in std_logic_vector(DATASIZE - 1 downto 0);
-				COUNT	: out std_logic_vector(DATASIZE - 1 downto 0)
+				DIR		: in std_logic;
+				INIT	: in std_logic_vector(DATAWIDTH - 1 downto 0);
+				COUNT	: out std_logic_vector(DATAWIDTH - 1 downto 0)
 				);
 	end component counter;
 
@@ -57,12 +57,12 @@ begin
 
 -- Testkomponente instanzieren
 UUT:	counter  generic map(
-							DATASIZE 	=> DATASIZE,
-							DIRECTION	=>	DIRECTION
+							DATAWIDTH 	=> DATAWIDTH
 							)
 					port map(
 							EN		=>	EN,
 							clk		=>	clk,
+							DIR		=>	DIR,
 							INIT	=>	INIT,
 							COUNT	=>	COUNT
 							);
@@ -82,7 +82,12 @@ procSIM:	process
 					EN <= '1';								wait for clk_period * 258;
 					EN <= '0';	INIT <= x"F0";				wait for clk_period * 2;
 					EN <= '1';								wait for clk_period * 258;
-					EN <= '0';	INIT <= (others => '0');
+					EN <= '0';	INIT <= (others => '0');	wait for clk_period * 2;
+					EN <= '0';	INIT <= (others => '1');	wait for clk_period * 2;
+					EN <= '1';	DIR  <= '1';				wait for clk_period * 258;
+					EN <= '0';	INIT <= x"F0";				wait for clk_period * 2;
+					EN <= '1';								wait for clk_period * 258;
+					EN <= '0';	DIR  <= '0'; INIT <= (others => '0');
 				-- Ablauf stoppen
 				wait;
 			end process procSIM;

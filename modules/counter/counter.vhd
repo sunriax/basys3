@@ -1,77 +1,79 @@
---	--------------- Module ---------------
---	SUNriaX Technology!
---	GÄCHTER R.
---	
---	mail: https://www.sunriax.at/contact
---	web:  https://www.sunriax.at
---  git:  https://github.com/sunriax/
---	
---	(c) 2017 SUNriaX, All rights reserved
---	--------------------------------------
---	File: counter.vhd
---	Version: v1.0
---	--------------------------------------
---	Modul zum Zählen von Takten mit
---	variabler Breite und Zählrichtung
---	--------------------------------------
+-- -------------------------------------
+-- SUNriaX Project
+-- www.sunriax.at
+-- -------------------------------------
+-- Hardware: Basys3
+-- Platform: Artix 7 CPG236 FPGA
+-- -------------------------------------
+-- Name: counter.vhd
+-- Ver.: 1.0 Release
+-- Type: Behavioural
+-- Text: Module for counting clock
+--       cycles. With variable bit
+--       length and direction
+--
+-- (c) 2017 SUNriaX, All rights reserved
+-- https://github.com/sunriax/basys3
+-- -------------------------------------
 
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
 
--- Modulkopf
 entity counter is
+	-- System parameters
 	 Generic(
-			-- Takt Einstellungen
-			constant DATASIZE	: integer range 1 to 64 := 8;	-- Datenbreite des Zählers
-			constant DIRECTION	: std_logic := '0'				-- 0=Vorwärts, 1=Rückwärts
+			constant DATAWIDTH	: integer range 1 to 64 := 8	-- Datawidth of counter
 			);
+	-- I/O signals
 		Port(
 			-- Enable und Takteingang
 			EN		: in std_logic;
 			clk		: in std_logic;
 			
+			-- Counter Direction
+			DIR		: in std_logic;
+			
 			-- Startwert Initialisieren
-			INIT	: in std_logic_vector(DATASIZE - 1 downto 0);
+			INIT	: in std_logic_vector(DATAWIDTH - 1 downto 0);
 
 			-- Zählerausgang
-			COUNT	: out std_logic_vector(DATASIZE - 1 downto 0)
+			COUNT	: out std_logic_vector(DATAWIDTH - 1 downto 0)
 			);
 end counter;
 
--- Modulverhalten
-architecture Behavioral of counter is
-	signal intCOUNT : unsigned(DATASIZE - 1 downto 0) := (others => '0');	-- Interne Zählvariable
+architecture Behavioural of counter is
+	signal intCOUNT : unsigned(DATAWIDTH - 1 downto 0) := (others => '0');	-- Interne Zählvariable
 begin
 
--- Interner Zählerwert ausgeben
-COUNT <= std_logic_vector(intCOUNT);
-
--- Zählprozess
+-- Counter process
 counter:	process(EN, clk, INIT)
 			begin
 				
-				-- Asynchroner Reset
+				-- Asynchronous logic system
 				if(EN <= '0') then
 					
-					-- Zähler auf Initialwert rücksetzten
+					-- Reset all output to initialsation
+					COUNT <= INIT;
 					intCOUNT <= unsigned(INIT);
 					
-				-- Synchrones Schaltwerk
+				-- Synchronous logic system
 				elsif(rising_edge(CLK)) then
 				
-					-- Wenn Zähler vorwärts
-					if(DIRECTION = '0') then
+					-- Forward counting direction
+					if(DIR = '0') then
 					
-						intCOUNT <= intCOUNT + 1;	-- Zähler inkrementieren
+						intCOUNT <= intCOUNT + 1;
+						COUNT <= std_logic_vector(intCOUNT);	-- Increment counter
 					
-					-- Wenn Zähler rückwärts
+					-- Backward counting direction
 					else
 					
-						intCOUNT <= intCOUNT - 1;	-- Zähler dekrementieren
+						intCOUNT <= intCOUNT - 1;
+						COUNT <= std_logic_vector(intCOUNT);	-- Decrement counter
 						
 					end if;
 				end if;
 			end process counter;
 
-end Behavioral;
+end Behavioural;
