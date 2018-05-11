@@ -113,7 +113,19 @@ procSIM:	process
 					
 								SCK <= '0';	CS <= '0';	dIN <= '0'; LOAD <= '1'; dataIN <= (others => '0');		wait for sck_period * 1;
 								SCK <= '1';	CS <= '0';	dIN <= '0'; LOAD <= '1'; dataIN <= (others => '0');		wait for sck_period * 1;
-					
+													
+								SCK <= '0';	CS <= '0';	dIN <= '0'; LOAD <= '1'; dataIN <= (others => '0');		wait for sck_period * 1;
+								SCK <= '1';	CS <= '0';	dIN <= '0'; LOAD <= '1'; dataIN <= (others => '0');		wait for sck_period * 1;
+																					
+								--SCK <= '0';	CS <= '0';	dIN <= '0'; LOAD <= '1'; dataIN <= (others => '0');		wait for sck_period * 1;
+								--SCK <= '1';	CS <= '0';	dIN <= '0'; LOAD <= '1'; dataIN <= (others => '0');		wait for sck_period * 1;
+
+								--SCK <= '0';	CS <= '0';	dIN <= '0'; LOAD <= '1'; dataIN <= (others => '0');		wait for sck_period * 1;
+								--SCK <= '1';	CS <= '0';	dIN <= '0'; LOAD <= '1'; dataIN <= (others => '0');		wait for sck_period * 1;
+
+								--SCK <= '0';	CS <= '0';	dIN <= '0'; LOAD <= '1'; dataIN <= (others => '0');		wait for sck_period * 1;
+								--SCK <= '1';	CS <= '0';	dIN <= '0'; LOAD <= '1'; dataIN <= (others => '0');		wait for sck_period * 1;
+
 								SCK <= '0';	CS <= '0';	dIN <= '0'; LOAD <= '1'; dataIN <= (others => '0');		wait for sck_period * 1;
 								SCK <= '0';	CS <= '1';	dIN <= '0'; LOAD <= '1'; dataIN <= (others => '0');		wait for sck_period * 8;
 					

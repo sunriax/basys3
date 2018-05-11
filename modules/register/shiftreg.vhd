@@ -64,7 +64,7 @@ proc_status:	process(EN, CS, LOAD)
 						else
 						
 							dataOUT <= std_logic_vector(intSHIFT);
-						
+							
 						end if;
 
 					end if;
@@ -78,25 +78,46 @@ proc_shifter:	process(EN, intSCK)
 				
 					if(EN = '0') then
 					
-						dOUT <= '0';
 						intSHIFT <= (others => '0');
 					
 					elsif(rising_edge(intSCK)) then
 					
 						if(CS = '0') then
 						
-							dOUT <= intSHIFT(DATAWIDTH - 1);
 							intSHIFT <= intSHIFT(6 downto 0) & dIN;
 						
 						else
 						
 							intSHIFT <= unsigned(dataIN);
-							dOUT <= '0';
 						
 						end if;
 						
 					end if;
 				
 				end process proc_shifter;
+
+proc_next:		process(EN, intSCK)
+					
+				begin
+				
+					if(EN = '0') then
+					
+						dOUT <= '0';
+					
+					elsif(falling_edge(intSCK)) then
+					
+						if(CS = '0') then
+						
+							dOUT <= intSHIFT(7);
+						
+						else
+						
+							dOUT <= '0';
+						
+						end if;
+						
+					end if;
+				
+				end process proc_next;
 
 end Behavioral;
