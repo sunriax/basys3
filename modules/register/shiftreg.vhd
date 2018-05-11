@@ -41,12 +41,13 @@ entity shiftreg is
 end shiftreg;
 
 architecture Behavioral of shiftreg is
+	signal intSCK	: std_logic := '0';
 	signal intSHIFT	: unsigned(DATAWIDTH - 1 downto 0) := (others => '0');
-	signal statusSHIFT : unsigned(DATAWIDTH - 1 downto 0) := (others => '0');
-	signal loadSHIFT : unsigned(DATAWIDTH - 1 downto 0) := (others => '0');
 begin
 
-proc_status:	process(EN, CS)
+intSCK <= SCK WHEN CS = '0' ELSE not(LOAD); 
+
+proc_status:	process(EN, CS, LOAD)
 					
 				begin
 			
@@ -54,16 +55,24 @@ proc_status:	process(EN, CS)
 					
 						dataOUT <= (others => 'Z');
 					
-					elsif(rising_edge(CS)) then
-
-						dataOUT <= std_logic_vector(intSHIFT);
+					elsif(rising_edge(CS) or (falling_edge(LOAD) and CS = '1')) then
+						
+						if(LOAD = '0') then
+						
+							dataOUT <= dataIN;
+						
+						else
+						
+							dataOUT <= std_logic_vector(intSHIFT);
+						
+						end if;
 
 					end if;
 				
 				end process proc_status;
 
 
-proc_shifter:	process(EN, SCK, CS)
+proc_shifter:	process(EN, intSCK)
 					
 				begin
 				
@@ -72,10 +81,19 @@ proc_shifter:	process(EN, SCK, CS)
 						dOUT <= '0';
 						intSHIFT <= (others => '0');
 					
-					elsif(rising_edge(SCK) and CS = '0') then
+					elsif(rising_edge(intSCK)) then
+					
+						if(CS = '0') then
 						
-						dOUT <= intSHIFT(DATAWIDTH - 1);
-						intSHIFT <= intSHIFT(6 downto 0) & dIN; 
+							dOUT <= intSHIFT(DATAWIDTH - 1);
+							intSHIFT <= intSHIFT(6 downto 0) & dIN;
+						
+						else
+						
+							intSHIFT <= unsigned(dataIN);
+							dOUT <= '0';
+						
+						end if;
 						
 					end if;
 				
