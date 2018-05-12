@@ -23,27 +23,20 @@ use IEEE.NUMERIC_STD.ALL;
 entity counter is
 	-- System parameters
 	 Generic(
-			constant DATAWIDTH	: integer range 1 to 64 := 8	-- Datawidth of counter
+			constant DATAWIDTH	: integer range 1 to 64 := 8		-- Datawidth of counter
 			);
 	-- I/O signals
 		Port(
-			-- Enable und Takteingang
-			EN		: in std_logic;
-			clk		: in std_logic;
-			
-			-- Counter Direction
-			DIR		: in std_logic;
-			
-			-- Startwert Initialisieren
-			INIT	: in std_logic_vector(DATAWIDTH - 1 downto 0);
-
-			-- Zählerausgang
-			COUNT	: out std_logic_vector(DATAWIDTH - 1 downto 0)
+			EN		: in std_logic;									-- Enable
+			clk		: in std_logic;									-- Counter/System clock
+			DIR		: in std_logic;									-- Counter direction
+			INIT	: in std_logic_vector(DATAWIDTH - 1 downto 0);	-- Initialize start parameter
+			COUNT	: out std_logic_vector(DATAWIDTH - 1 downto 0)	-- Counter output
 			);
 end counter;
 
 architecture Behavioural of counter is
-	signal intCOUNT : unsigned(DATAWIDTH - 1 downto 0) := (others => '0');	-- Interne Zählvariable
+	signal intCOUNT : unsigned(DATAWIDTH - 1 downto 0) := (others => '0');	-- Internal counter signal
 begin
 
 -- Counter process
@@ -53,24 +46,24 @@ counter:	process(EN, clk, INIT)
 				-- Asynchronous logic system
 				if(EN <= '0') then
 					
-					-- Reset all output to initialsation
+					-- Reset all signals to initialsation
 					COUNT <= INIT;
 					intCOUNT <= unsigned(INIT);
 					
 				-- Synchronous logic system
 				elsif(rising_edge(CLK)) then
 				
-					-- Forward counting direction
+					-- Incremental counting direction
 					if(DIR = '0') then
 					
-						intCOUNT <= intCOUNT + 1;
-						COUNT <= std_logic_vector(intCOUNT);	-- Increment counter
+						intCOUNT <= intCOUNT + 1;				-- Increment counter
+						COUNT <= std_logic_vector(intCOUNT);	-- Write counter value to output
 					
-					-- Backward counting direction
+					-- Decremental counting direction
 					else
 					
-						intCOUNT <= intCOUNT - 1;
-						COUNT <= std_logic_vector(intCOUNT);	-- Decrement counter
+						intCOUNT <= intCOUNT - 1;				-- Incremental counter
+						COUNT <= std_logic_vector(intCOUNT);	-- Write counter value to output
 						
 					end if;
 				end if;
