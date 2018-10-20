@@ -60,7 +60,7 @@ This files are valid for all repositories at the SUNriaX Github!
 
 ## Additional Information
 
-You can find more additional information in the [manual](https://github.com/sunriax/manual/tree/master/docs) repository and/or visit the [SUNriaX Project Wikipedia](https://wiki.sunriax.at/) for further information (currently under construction).
+You can find more additional information in the [manual](https://github.com/sunriax/manual/tree/master/docs) repository and/or visit the [WIKI](https://wiki.sunriax.at/) for further information (currently under construction).
 
 If there are any further questions feel free to start an issue or contact us, we try to react as quick as possible.
 
